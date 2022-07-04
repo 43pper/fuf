@@ -49,6 +49,13 @@ public class User {
     inverseJoinColumns = @JoinColumn(name="location_id"))
     private Set<Location> favouriteLocations;
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    @OneToOne
+    Location currentLocation;
+
     public Set<User> getBlockedUsers() {
         return blockedUser;
     }
