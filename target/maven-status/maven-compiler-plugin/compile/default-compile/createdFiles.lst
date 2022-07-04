@@ -1,0 +1,15 @@
+com\secag\fuf\db\repositories\UserInterestsRepository.class
+com\secag\fuf\db\entitites\Chat.class
+com\secag\fuf\db\repositories\UserRepository.class
+com\secag\fuf\db\repositories\InterestRepository.class
+com\secag\fuf\db\repositories\ChatRepository.class
+com\secag\fuf\FufApplication.class
+com\secag\fuf\db\repositories\LocationRepository.class
+com\secag\fuf\db\entitites\User.class
+com\secag\fuf\db\entitites\UserInterestsId.class
+com\secag\fuf\controllers\ProfileController.class
+com\secag\fuf\db\entitites\Message.class
+com\secag\fuf\db\repositories\MessageRepository.class
+com\secag\fuf\db\entitites\Interest.class
+com\secag\fuf\db\entitites\Location.class
+com\secag\fuf\db\entitites\UserInterests.class
