@@ -24,27 +24,7 @@ public class FufApplication {
     @Autowired
     UserRepository userRepository;
     Connection connection = null;
-    @GetMapping("/message")
-    public String message(){
-        String mesStart;
-        try {
-            connection = DriverManager.getConnection("jdbc:mysql://fuf-server.mysql.database.azure.com:3306/fuf?autoReconnect=true", "raexxzgeqi", "Fufadmin!1234");
-            mesStart = connection.toString();
-        } catch (SQLException e) {
-            mesStart = "ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ";
-        }
-        return mesStart + "Artem siv na velosyped i pishov yistu kabachky";
-    }
 
-    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<User> getAllUsers(
-            Map<String, Object> model) {
-        Iterable<User> users = userRepository.findAll();
-        model.put("users", users);
-        List<User> usersList = new ArrayList<>();
-        users.forEach(usersList::add);
-        return usersList;
-    }
 
     public static void main(String[] args) {
         SpringApplication.run(FufApplication.class, args);

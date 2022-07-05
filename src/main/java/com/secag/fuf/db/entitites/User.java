@@ -40,6 +40,9 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<User> blockedUser;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Chat> chats;
+
     @OneToMany(mappedBy = "user")
     private Set<UserInterests> userInterests;
 

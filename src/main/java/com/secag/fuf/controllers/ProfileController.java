@@ -16,15 +16,9 @@ public class ProfileController {
 
     @Autowired
     private UserRepository userRepository;
-//
-//    @GetMapping("/all")
-//    public String allProfiles() {
-//        Iterable<User> users = userRepository.findAll();
-//        System.out.println(users);
-//        return "";
-//    }
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<User> getAllUsers(
                                         Map<String, Object> model) {
         Iterable<User> users = userRepository.findAll();
