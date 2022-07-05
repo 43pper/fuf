@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface InterestRepository extends JpaRepository<Interest, Long> {
-
+    Interest getInterestById(Long id);
 
 }

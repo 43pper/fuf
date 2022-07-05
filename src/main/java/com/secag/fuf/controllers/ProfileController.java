@@ -3,6 +3,7 @@ package com.secag.fuf.controllers;
 import com.secag.fuf.db.entitites.Interest;
 import com.secag.fuf.db.entitites.User;
 import com.secag.fuf.db.entitites.UserInterests;
+import com.secag.fuf.db.repositories.InterestRepository;
 import com.secag.fuf.db.repositories.UserInterestsRepository;
 import com.secag.fuf.db.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,9 @@ public class ProfileController {
     private UserRepository userRepository;
     @Autowired
     private UserInterestsRepository userInterestsRepository;
+
+    @Autowired
+    private InterestRepository interestRepository;
 
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -96,7 +100,7 @@ public class ProfileController {
         Set<UserInterests> userInterests = userInterestsRepository.findByUserIdAndIsPositiveIsTrue(id);
         Set<Interest> interests = new HashSet<>();
         for (UserInterests userInterest : userInterests) {
-            interests.add(userInterest.getInterest());
+            interests.add(interestRepository.getInterestById(userInterest.getId().getInterestId()));
         }
         return interests;
     }
@@ -105,7 +109,7 @@ public class ProfileController {
         Set<UserInterests> userInterests = userInterestsRepository.findByUserIdAndIsPositiveIsFalse(id);
         Set<Interest> interests = new HashSet<>();
         for (UserInterests userInterest : userInterests) {
-            interests.add(userInterest.getInterest());
+            interests.add(interestRepository.getInterestById(userInterest.getId().getInterestId()));
         }
         return interests;
     }
