@@ -1,6 +1,9 @@
 package com.secag.fuf.controllers;
 
+import com.secag.fuf.db.entitites.Interest;
 import com.secag.fuf.db.entitites.User;
+import com.secag.fuf.db.entitites.UserInterests;
+import com.secag.fuf.db.repositories.UserInterestsRepository;
 import com.secag.fuf.db.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -16,15 +19,11 @@ public class ProfileController {
 
     @Autowired
     private UserRepository userRepository;
-//
-//    @GetMapping("/all")
-//    public String allProfiles() {
-//        Iterable<User> users = userRepository.findAll();
-//        System.out.println(users);
-//        return "";
-//    }
+    @Autowired
+    private UserInterestsRepository userInterestsRepository;
 
-    @GetMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+
+    @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<User> getAllUsers(
                                         Map<String, Object> model) {
         Iterable<User> users = userRepository.findAll();
@@ -84,12 +83,31 @@ public class ProfileController {
     }
 
     @GetMapping(value="/{id}")
-    public @ResponseBody User updateUserInfo(@PathVariable("id") Long id) {
+    public @ResponseBody User getUser(@PathVariable("id") Long id) {
         User user = userRepository.findById(id).orElse(new User());
         if (user.getId() == 0) {
             return null;
         }
         return user;
+    }
+
+    @GetMapping(value="/{id}/interests")
+    public @ResponseBody Set<Interest> getUserInterests(@PathVariable("id") Long id) {
+        Set<UserInterests> userInterests = userInterestsRepository.findByUserIdAndIsPositiveIsTrue(id);
+        Set<Interest> interests = new HashSet<>();
+        for (UserInterests userInterest : userInterests) {
+            interests.add(userInterest.getInterest());
+        }
+        return interests;
+    }
+    @GetMapping(value="/{id}/bannedinterests")
+    public @ResponseBody Set<Interest> getUserBannedInterests(@PathVariable("id") Long id) {
+        Set<UserInterests> userInterests = userInterestsRepository.findByUserIdAndIsPositiveIsFalse(id);
+        Set<Interest> interests = new HashSet<>();
+        for (UserInterests userInterest : userInterests) {
+            interests.add(userInterest.getInterest());
+        }
+        return interests;
     }
 
 

@@ -36,16 +36,6 @@ public class FufApplication {
         return mesStart + "Artem siv na velosyped i pishov yistu kabachky";
     }
 
-    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody List<User> getAllUsers(
-            Map<String, Object> model) {
-        Iterable<User> users = userRepository.findAll();
-        model.put("users", users);
-        List<User> usersList = new ArrayList<>();
-        users.forEach(usersList::add);
-        return usersList;
-    }
-
     public static void main(String[] args) {
         SpringApplication.run(FufApplication.class, args);
     }

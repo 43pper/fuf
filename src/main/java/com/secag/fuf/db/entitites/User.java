@@ -49,6 +49,14 @@ public class User {
     inverseJoinColumns = @JoinColumn(name="location_id"))
     private Set<Location> favouriteLocations;
 
+    public Set<UserInterests> getUserInterests() {
+        return userInterests;
+    }
+
+    public void setUserInterests(Set<UserInterests> userInterests) {
+        this.userInterests = userInterests;
+    }
+
     public void setId(Long id) {
         this.id = id;
     }
