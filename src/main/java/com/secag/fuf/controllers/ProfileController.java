@@ -4,6 +4,7 @@ import com.secag.fuf.db.entitites.Interest;
 import com.secag.fuf.db.entitites.User;
 import com.secag.fuf.db.entitites.UserInterests;
 import com.secag.fuf.db.repositories.InterestRepository;
+import com.secag.fuf.db.repositories.LocationRepository;
 import com.secag.fuf.db.repositories.UserInterestsRepository;
 import com.secag.fuf.db.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class ProfileController {
 
     @Autowired
     private InterestRepository interestRepository;
+//    @Autowired
+//    private LocationRepository locationRepository;
 
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -77,7 +80,7 @@ public class ProfileController {
         updatedUser.setEmail(Optional.ofNullable(email).orElse(user.getEmail()));
         updatedUser.setPassword(Optional.ofNullable(password).orElse(user.getPassword()));
         updatedUser.setCity(Optional.ofNullable(city).orElse(user.getCity()));
-        updatedUser.setLogin(Optional.ofNullable(login).orElse(user.getCity()));
+        updatedUser.setLogin(Optional.ofNullable(login).orElse(user.getLogin()));
         updatedUser.setPhoto(Optional.ofNullable(photo).orElse(user.getPhoto()));
         updatedUser.setProfileDescription(Optional.ofNullable(profileDescription).orElse(user.getProfileDescription()));
         updatedUser.setPhoneNumber(Optional.ofNullable(phoneNumber).orElse(user.getPhoneNumber()));
@@ -88,11 +91,8 @@ public class ProfileController {
 
     @GetMapping(value="/{id}")
     public @ResponseBody User getUser(@PathVariable("id") Long id) {
-        User user = userRepository.findById(id).orElse(new User());
-        if (user.getId() == 0) {
-            return null;
-        }
-        return user;
+        Optional<User> user = userRepository.findById(id);
+        return user.orElse(null);
     }
 
     @GetMapping(value="/{id}/interests")

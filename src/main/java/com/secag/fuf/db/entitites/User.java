@@ -40,6 +40,9 @@ public class User {
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     Set<User> blockedUser;
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    Set<User> checkedUser;
+
     @OneToMany(mappedBy = "user")
     private Set<UserInterests> userInterests;
 
@@ -64,12 +67,24 @@ public class User {
     @OneToOne
     Location currentLocation;
 
-    public Set<User> getBlockedUsers() {
+    public Set<User> getBlockedUser() {
         return blockedUser;
     }
 
-    public void setBlockedUsers(Set<User> blockedUsers) {
-        this.blockedUser = blockedUsers;
+    public void setBlockedUser(Set<User> blockedUser) {
+        this.blockedUser = blockedUser;
+    }
+
+    public Set<User> getCheckedUser() {
+        return checkedUser;
+    }
+
+    public Set<Location> getFavouriteLocations() {
+        return favouriteLocations;
+    }
+
+    public Location getCurrentLocation() {
+        return currentLocation;
     }
 
     public Long getId() {

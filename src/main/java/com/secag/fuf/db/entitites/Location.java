@@ -8,6 +8,8 @@ public class Location {
     @Id
     private String id;
 
+    private String title;
+
     private Integer rating;
 
     @ManyToMany(mappedBy = "favouriteLocations")
