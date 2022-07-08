@@ -10,6 +10,22 @@ public class Location {
 
     private String title;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Integer getRating() {
+        return rating;
+    }
+
+    public void setRating(Integer rating) {
+        this.rating = rating;
+    }
+
     private Integer rating;
 
     @ManyToMany(mappedBy = "favouriteLocations")
