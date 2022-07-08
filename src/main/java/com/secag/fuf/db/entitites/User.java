@@ -56,6 +56,10 @@ public class User {
         return userInterests;
     }
 
+    public void setFavouriteLocations(Set<Location> favouriteLocations) {
+        this.favouriteLocations = favouriteLocations;
+    }
+
     public void setUserInterests(Set<UserInterests> userInterests) {
         this.userInterests = userInterests;
     }

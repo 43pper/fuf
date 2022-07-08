@@ -1,6 +1,7 @@
 package com.secag.fuf.controllers;
 
 import com.secag.fuf.db.entitites.Interest;
+import com.secag.fuf.db.entitites.Location;
 import com.secag.fuf.db.entitites.User;
 import com.secag.fuf.db.entitites.UserInterests;
 import com.secag.fuf.db.repositories.InterestRepository;
@@ -28,6 +29,9 @@ public class ProfileController {
     private InterestRepository interestRepository;
 //    @Autowired
 //    private LocationRepository locationRepository;
+
+    @Autowired
+    private LocationRepository locationRepository;
 
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,7 +71,7 @@ public class ProfileController {
                                             @RequestParam(required=false) String email, @RequestParam(required=false) String password,
                                             @RequestParam(required=false) String city, @RequestParam(required=false) String login,
                                             @RequestParam(required=false) String photo, @RequestParam(required=false) String phoneNumber,
-                                            @RequestParam(required=false) String profileDescription,
+                                            @RequestParam(required=false) String profileDescription, @RequestParam(required = false) Set<Location> locations,
                                             Map<String, Object> model) {
         User user = userRepository.findById(id).orElse(new User());
         if (user.getId() == 0) {
@@ -84,7 +88,7 @@ public class ProfileController {
         updatedUser.setPhoto(Optional.ofNullable(photo).orElse(user.getPhoto()));
         updatedUser.setProfileDescription(Optional.ofNullable(profileDescription).orElse(user.getProfileDescription()));
         updatedUser.setPhoneNumber(Optional.ofNullable(phoneNumber).orElse(user.getPhoneNumber()));
-
+        updatedUser.setFavouriteLocations(locations);
         User createdUser = userRepository.save(updatedUser);
         return createdUser;
     }
@@ -112,6 +116,18 @@ public class ProfileController {
             interests.add(interestRepository.getInterestById(userInterest.getId().getInterestId()));
         }
         return interests;
+    }
+
+    @GetMapping(value="/{id}/locations")
+    public @ResponseBody Set<Location> getUserLocations(@PathVariable("id") Long id,
+                                                        @RequestParam(required = true) Long userId) {
+        return getUserLocations(id);
+    }
+
+    private Set<Location> getUserLocations(Long userId) {
+        Optional<User> userOptional = userRepository.findById(userId);
+        if (userOptional.isEmpty()) return null;
+        return locationRepository.findByUsersFavourite(userOptional.get());
     }
 
 

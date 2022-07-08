@@ -1,3 +1,4 @@
+D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\controllers\FeedController.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\repositories\UserInterestsRepository.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\entitites\Interest.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\repositories\InterestRepository.java
@@ -8,8 +9,10 @@ D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\FufApplication.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\controllers\ProfileController.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\entitites\Chat.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\entitites\User.java
+D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\repositories\FeedSearchEngine.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\repositories\MessageRepository.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\entitites\Location.java
+D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\controllers\InterestController.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\repositories\LocationRepository.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\entitites\UserInterestsId.java
 D:\PROJECTS\JAVA\fuf\src\main\java\com\secag\fuf\db\entitites\Message.java
