@@ -8,11 +8,15 @@ import com.secag.fuf.db.repositories.InterestRepository;
 import com.secag.fuf.db.repositories.LocationRepository;
 import com.secag.fuf.db.repositories.UserInterestsRepository;
 import com.secag.fuf.db.repositories.UserRepository;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 
@@ -20,6 +24,8 @@ import java.util.*;
 @RequestMapping("/profiles")
 public class ProfileController {
 
+    @Value("${photo.path}")
+    private String photoPath;
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -36,7 +42,7 @@ public class ProfileController {
 
     @GetMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody List<User> getAllUsers(
-                                        Map<String, Object> model) {
+            Map<String, Object> model) {
         Iterable<User> users = userRepository.findAll();
         model.put("users", users);
         List<User> usersList = new ArrayList<>();
@@ -45,12 +51,12 @@ public class ProfileController {
     }
 
     @PostMapping(value = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody User createNewUser(@RequestParam(required=false) String name, @RequestParam(required=false) String lastname,
-                                                @RequestParam(required=true) String email, @RequestParam(required=true) String password,
-                                                @RequestParam(required=false) String city, @RequestParam(required=true) String login,
-                                                @RequestParam(required=false) String photo, @RequestParam(required=false) String phoneNumber,
-                                                @RequestParam(required=false) String profileDescription,
-                                        Map<String, Object> model) {
+    public @ResponseBody User createNewUser(@RequestParam(required = false) String name, @RequestParam(required = false) String lastname,
+                                            @RequestParam(required = true) String email, @RequestParam(required = true) String password,
+                                            @RequestParam(required = false) String city, @RequestParam(required = true) String login,
+                                            @RequestParam(required = false) String photo, @RequestParam(required = false) String phoneNumber,
+                                            @RequestParam(required = false) String profileDescription,
+                                            Map<String, Object> model) {
         User newUser = new User();
         newUser.setName(name);
         newUser.setLastName(lastname);
@@ -66,13 +72,13 @@ public class ProfileController {
         return createdUser;
     }
 
-    @PutMapping(value="/{id}")
-    public @ResponseBody User updateUserInfo(@PathVariable("id") Long id, @RequestParam(required=false) String name, @RequestParam(required=false) String lastname,
-                                            @RequestParam(required=false) String email, @RequestParam(required=false) String password,
-                                            @RequestParam(required=false) String city, @RequestParam(required=false) String login,
-                                            @RequestParam(required=false) String photo, @RequestParam(required=false) String phoneNumber,
-                                            @RequestParam(required=false) String profileDescription, @RequestParam(required = false) Set<Location> locations,
-                                            Map<String, Object> model) {
+    @PutMapping(value = "/{id}")
+    public @ResponseBody User updateUserInfo(@PathVariable("id") Long id, @RequestParam(required = false) String name, @RequestParam(required = false) String lastname,
+                                             @RequestParam(required = false) String email, @RequestParam(required = false) String password,
+                                             @RequestParam(required = false) String city, @RequestParam(required = false) String login,
+                                             @RequestParam(required = false) String photo, @RequestParam(required = false) String phoneNumber,
+                                             @RequestParam(required = false) String profileDescription, @RequestParam(required = false) Set<Location> locations,
+                                             Map<String, Object> model) {
         User user = userRepository.findById(id).orElse(new User());
         if (user.getId() == 0) {
             return null;
@@ -93,13 +99,13 @@ public class ProfileController {
         return createdUser;
     }
 
-    @GetMapping(value="/{id}")
+    @GetMapping(value = "/{id}")
     public @ResponseBody User getUser(@PathVariable("id") Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.orElse(null);
     }
 
-    @GetMapping(value="/{id}/interests")
+    @GetMapping(value = "/{id}/interests")
     public @ResponseBody Set<Interest> getUserInterests(@PathVariable("id") Long id) {
         Set<UserInterests> userInterests = userInterestsRepository.findByUserIdAndIsPositiveIsTrue(id);
         Set<Interest> interests = new HashSet<>();
@@ -108,7 +114,8 @@ public class ProfileController {
         }
         return interests;
     }
-    @GetMapping(value="/{id}/bannedinterests")
+
+    @GetMapping(value = "/{id}/bannedinterests")
     public @ResponseBody Set<Interest> getUserBannedInterests(@PathVariable("id") Long id) {
         Set<UserInterests> userInterests = userInterestsRepository.findByUserIdAndIsPositiveIsFalse(id);
         Set<Interest> interests = new HashSet<>();
@@ -118,13 +125,21 @@ public class ProfileController {
         return interests;
     }
 
-    @GetMapping(value="/{id}/locations")
-    public @ResponseBody Set<Location> getUserLocations(@PathVariable("id") Long id,
-                                                        @RequestParam(required = true) Long userId) {
-        return getUserLocations(id);
+    @GetMapping(value = "/{id}/locations", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody Set<Location> getUserLocations(@PathVariable("id") Long id) {
+        Set<Location> returnedLocations = getLocations(id);
+        return returnedLocations;
     }
 
-    private Set<Location> getUserLocations(Long userId) {
+    @GetMapping(value = "/{id}/photo", produces = MediaType.IMAGE_JPEG_VALUE)
+    public @ResponseBody byte[] getUserPhoto(@PathVariable("id") Long id) throws IOException {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isEmpty()) return null;
+        InputStream in = getClass().getResourceAsStream(photoPath + user.get().getPhoto());
+        return IOUtils.toByteArray(in);
+    }
+
+    private Set<Location> getLocations(Long userId) {
         Optional<User> userOptional = userRepository.findById(userId);
         if (userOptional.isEmpty()) return null;
         return locationRepository.findByUsersFavourite(userOptional.get());

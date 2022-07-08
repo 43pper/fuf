@@ -5,11 +5,14 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
+import java.io.Serial;
+import java.io.Serializable;
 import java.util.Set;
 
 @Entity
-public class User {
-
+public class User implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
     public User(){}
 
     @Id
