@@ -1,9 +1,6 @@
 package com.secag.fuf.controllers;
 
-import com.secag.fuf.db.entitites.Interest;
-import com.secag.fuf.db.entitites.Location;
-import com.secag.fuf.db.entitites.User;
-import com.secag.fuf.db.entitites.UserInterests;
+import com.secag.fuf.db.entitites.*;
 import com.secag.fuf.db.repositories.InterestRepository;
 import com.secag.fuf.db.repositories.LocationRepository;
 import com.secag.fuf.db.repositories.UserInterestsRepository;
@@ -13,11 +10,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -71,13 +70,14 @@ public class ProfileController {
         User createdUser = userRepository.save(newUser);
         return createdUser;
     }
-
+    @Transactional
     @PutMapping(value = "/{id}")
     public @ResponseBody User updateUserInfo(@PathVariable("id") Long id, @RequestParam(required = false) String name, @RequestParam(required = false) String lastname,
                                              @RequestParam(required = false) String email, @RequestParam(required = false) String password,
                                              @RequestParam(required = false) String city, @RequestParam(required = false) String login,
                                              @RequestParam(required = false) String photo, @RequestParam(required = false) String phoneNumber,
-                                             @RequestParam(required = false) String profileDescription, @RequestParam(required = false) Set<Location> locations,
+                                             @RequestParam(required = false) String profileDescription, @RequestParam(required = false) String[] locations,
+                                             @RequestParam(required = false) Long[] interests, @RequestParam(required = false) Long[] bannedInterests,
                                              Map<String, Object> model) {
         User user = userRepository.findById(id).orElse(new User());
         if (user.getId() == 0) {
@@ -94,7 +94,48 @@ public class ProfileController {
         updatedUser.setPhoto(Optional.ofNullable(photo).orElse(user.getPhoto()));
         updatedUser.setProfileDescription(Optional.ofNullable(profileDescription).orElse(user.getProfileDescription()));
         updatedUser.setPhoneNumber(Optional.ofNullable(phoneNumber).orElse(user.getPhoneNumber()));
-        updatedUser.setFavouriteLocations(locations);
+        if (locations != null) {
+//            locationRepository.deleteAllByUsersFavourite(user);
+            Set<String> userNewLocationsIds = Arrays.stream(locations).collect(Collectors.toSet());
+            Set<Location> userNewLocations = new HashSet<>();
+            userNewLocationsIds.forEach(a -> userNewLocations.add(locationRepository.findById(a).orElse(null)));
+            Set<Location> userLocations = userNewLocations.stream().filter(Objects::nonNull).collect(Collectors.toSet());
+            updatedUser.setFavouriteLocations(userLocations);
+        }
+        if (interests != null || bannedInterests != null) {
+            Set<UserInterests> userInterests = new HashSet<>();
+            if (interests != null) {
+                for (Long interestId : interests) {
+                    if (interestRepository.findById(interestId).isEmpty()) continue;
+                    UserInterestsId uid = new UserInterestsId();
+                    uid.setUserId(id);
+                    uid.setInterestId(interestId);
+                    UserInterests ui = new UserInterests();
+                    ui.setPositive(true);
+                    ui.setId(uid);
+                    ui.setUser(user);
+                    ui.setInterest(interestRepository.findById(interestId).get());
+                    userInterests.add(ui);
+                }
+            }
+            if (bannedInterests != null) {
+                for (Long interestId : bannedInterests) {
+                    if (interestRepository.findById(interestId).isEmpty()) continue;
+                    UserInterestsId uid = new UserInterestsId();
+                    uid.setUserId(id);
+                    uid.setInterestId(interestId);
+                    UserInterests ui = new UserInterests();
+                    ui.setPositive(false);
+                    ui.setId(uid);
+                    ui.setUser(user);
+                    ui.setInterest(interestRepository.findById(interestId).get());
+                    userInterests.add(ui);
+                }
+            }
+            userInterestsRepository.deleteAllByUserId(id);
+            updatedUser.setUserInterests(userInterests);
+            userInterestsRepository.saveAll(userInterests);
+        }
         User createdUser = userRepository.save(updatedUser);
         return createdUser;
     }

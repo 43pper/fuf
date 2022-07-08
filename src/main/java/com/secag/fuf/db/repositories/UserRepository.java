@@ -21,4 +21,6 @@ public interface UserRepository extends JpaRepository<User, Long> {
         @Query("select user from User user  where user.id > 0 AND  user.id not in (?1)")
         List<User> getNearbyUsers(Long[] alreadyExistsUsers,Pageable pageable);
 
+//        void deleteFavouriteLocationsById(Long id);
+
 }

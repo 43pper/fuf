@@ -18,9 +18,24 @@ public class UserInterests {
     public UserInterestsId getId() {
         return id;
     }
-
     public void setId(UserInterestsId id) {
         this.id = id;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setInterest(Interest interest) {
+        this.interest = interest;
+    }
+
+    public boolean isPositive() {
+        return isPositive;
+    }
+
+    public void setPositive(boolean positive) {
+        isPositive = positive;
     }
 
     private boolean isPositive;

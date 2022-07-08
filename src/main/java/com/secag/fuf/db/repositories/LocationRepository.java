@@ -9,7 +9,9 @@ import java.util.List;
 import java.util.Set;
 
 @Repository
-public interface LocationRepository extends JpaRepository<Location, Long> {
+public interface LocationRepository extends JpaRepository<Location, String> {
 //    Location findByUserLocations_UserId(Long userId);
     Set<Location> findByUsersFavourite(User user);
+//    void deleteAllByUserId(Long id);
+    void deleteAllByUsersFavourite(User user);
 }

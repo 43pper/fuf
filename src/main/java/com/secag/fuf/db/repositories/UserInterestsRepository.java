@@ -17,7 +17,8 @@ public interface UserInterestsRepository extends JpaRepository<UserInterests, Lo
     Set<UserInterests> findByUserId(Long id);
     Set<UserInterests> findByUserIdAndIsPositiveIsTrue(Long id);
     Set<UserInterests> findByUserIdAndIsPositiveIsFalse(Long id);
-
-    
+    void deleteAllByUserId(Long id);
+    void deleteByUserIdAndIsPositiveIsTrue(Long id);
+    void deleteByUserIdAndIsPositiveIsFalse(Long id);
 
 }
