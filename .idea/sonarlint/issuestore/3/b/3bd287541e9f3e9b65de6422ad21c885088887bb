@@ -1,0 +1,19 @@
+
+P
+java:S1191"5Use classes from the Java API instead of Sun classes.(‡œ£ÿÿÿÿÿ
+—
+java:S1186"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(˜íƒó
+J
+java:S1948,"(Make "blockedUser" private or transient.(Åº‘Çùÿÿÿÿ8ŸØÂì0
+E
+java:S1948/"(Make "checkedUser" private or transient.(–¼¼ü8 ØÂì0
+K
+java:S19482"/Make "userInterests" transient or serializable.(ÍıI8 ØÂì0
+V
+java:S19488"4Make "favouriteLocations" transient or serializable.(³ˆûßúÿÿÿÿ8 ØÂì0
+N
+java:S1948K"1Make "currentLocation" transient or serializable.(Áı¨´8¡ØÂì0
+d
+java:S1128"IRemove this unused import 'org.springframework.context.annotation.Scope'.(şè®€ÿÿÿÿÿ
+`
+java:S1128"ERemove this unused import 'org.springframework.stereotype.Component'.(Ş÷Ñ¸ÿÿÿÿÿ

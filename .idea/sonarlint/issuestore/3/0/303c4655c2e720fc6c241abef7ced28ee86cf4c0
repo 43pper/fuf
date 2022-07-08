@@ -1,0 +1,19 @@
+
+~
+java:S1488F"cImmediately return this expression instead of assigning it to the temporary variable "createdUser".(‹ÿ‰¨üÿÿÿÿ
+z
+java:S1488‹"cImmediately return this expression instead of assigning it to the temporary variable "createdUser".(İ—ã¼
+€
+java:S1488«"iImmediately return this expression instead of assigning it to the temporary variable "returnedLocations".(«÷ÈÚ
+n
+java:S3655ƒ"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(–´Ã¿8‚–¸õ0
+m
+java:S3655u"PCall "Optional#isPresent()" or "!Optional#isEmpty()" before accessing the value.(–´Ã¿8Á¼³õ0
+P	java:S125$"<This block of commented-out lines of code should be removed.(¼ Ô\
+m
+java:S3776K"RRefactor this method to reduce its Cognitive Complexity from 22 to the 15 allowed.(“ÿ€€ÿÿÿÿÿ
+V	java:S125b"<This block of commented-out lines of code should be removed.(Ê©Í˜şÿÿÿÿ
+B
+java:S1168²"&Return an empty array instead of null.(ü“Ø™øÿÿÿÿ
+B
+java:S1168¹"+Return an empty collection instead of null.(¯³ËÔ

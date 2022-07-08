@@ -1,0 +1,14 @@
+
+w
+java:S14889"aImmediately return this expression instead of assigning it to the temporary variable "resultSet".(ë‰Š
+Q
+java:S2696*"6Make the enclosing method "static" or remove this set.(é¸×Ëşÿÿÿÿ
+P
+java:S2209*"5Change this instance-reference to a static reference.(é¸×Ëşÿÿÿÿ
+L
+java:S26962"6Make the enclosing method "static" or remove this set.( ¯¼Œ
+K
+java:S22092"5Change this instance-reference to a static reference.( ¯¼Œ
+P
+java:S6213@":Rename this variable to not match a restricted identifier.(¿Ö‘¨
+V	java:S125H"<This block of commented-out lines of code should be removed.(ãĞš—ûÿÿÿÿ
